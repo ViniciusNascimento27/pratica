@@ -24,3 +24,12 @@ app.use(express.json());
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
 });
+
+app.post('/logs', (req, res) => {
+    const { nome } = req.body;
+    if (!nome) return res.status(400).json({ erro: 'Nome do aluno é obrigatório' });
+
+    const id = registrarLog(nome);
+    res.status(201).json({ id, mensagem: 'Log registrado com sucesso' });
+});
+

@@ -33,3 +33,23 @@ app.post('/logs', (req, res) => {
     res.status(201).json({ id, mensagem: 'Log registrado com sucesso' });
 });
 
+const fsPromises = require('fs').promises;
+
+app.get('/logs/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const dados = await fsPromises.readFile('logs.txt', 'utf8');
+        const linhas = dados.split('\n');
+        const log = linhas.find(linha => linha.startsWith(id));
+
+        if (log) {
+            res.status(200).json({ log });
+        } else {
+            res.status(404).json({ erro: 'Log não encontrado' });
+        }
+    } catch (err) {
+        res.status(500).json({ erro: 'Erro ao ler o arquivo de logs' });
+    }
+});
+
+

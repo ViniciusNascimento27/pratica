@@ -52,4 +52,9 @@ app.get('/logs/:id', async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.send('API de registro de logs está funcionando!');
+});
+
+
 
